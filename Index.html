@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Indie+Flower|Luckiest+Guy|Seymour+One&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="clickitcss.css">
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/themes/smoothness/jquery-ui.css">
+    <title>ClickIt Game</title>
+</head>
+
+<body>
+    <div id="control" class="controls">
+        <div class="heading-wrapper">
+            <h1>Tap the Box</h1>
+            <p>before it reaches the bottom</p>
+        </div>
+
+        <div id="result" class="result">
+            <h3 id="res"></h3>
+        </div>
+
+        <div id="diff-ul" class="diff-ul">
+            <div id="diff" class="diff">
+                <!--<label for="select_level" class="diff-div">Difficulty | <select name="level" id="select_level">
+            <option>
+                Select a level
+            </option>
+            <option value="200" data-d = "800">
+                Easy
+            </option>
+            <option value="300" data-d = "600">
+                Medium
+            </option>
+            <option value="400" data-d = "400">
+                Hard
+            </option>
+                </select>
+            </label>-->
+
+                <p class="label-heading">Choose Difficulty</p>
+                <div class="radio-wrapper">
+                    <input type="radio" name="mode" value="200" data-mode="easy" data-d="800" id="mode-easy" checked>
+                    <label for="mode-easy">Easy</label>
+                </div>
+                <div class="radio-wrapper">
+                    <input type="radio" name="mode" value="300" data-mode="medium" data-d="600" id="mode-medium">
+                    <label for="mode-medium">Medium</label>
+                </div>
+                <div class="radio-wrapper">
+
+                    <input type="radio" name="mode" value="400" data-mode="hard" data-d="400" id="mode-hard">
+                    <label for="mode-hard">Hard</label>
+                </div>
+            </div>
+
+        </div>
+
+        <div id="load" class="button">
+            Play
+        </div>
+        <div id="again" class="button hidden">Again</div>
+
+        <div id="loading" class="loading">
+            <span id="count" class="count"></span>
+        </div>
+
+
+        
+    </div>
+    <div id="container" class="container">
+
+    </div>
+    <div class="clicked">
+        <span id="clicked"></span>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-1.12.3.min.js"
+        integrity="sha256-aaODHAgvwQW1bFOGXMeX+pC4PZIPsvn2h1sArYOhgXQ=" crossorigin="anonymous">
+    </script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
+
+    <script src="clickitJs.js"></script>
+</body>
+
+</html>
