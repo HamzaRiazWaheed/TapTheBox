@@ -33,6 +33,22 @@ count = limit;
 perc = 0;
 clicked = 0;
 var d = 800;
+var reply = false;
+var tapSound;
+var audioContext = new AudioContext();
+window.fetch('./tap.mp3')
+    .then(response => response.arrayBuffer())
+    .then(arrayBuffer => audioContext.decodeAudioData(arrayBuffer))
+    .then(audioBuffer => {
+        tapSound = audioBuffer;
+    });
+
+function play(audioBuffer) {
+    var source = audioContext.createBufferSource();
+    source.buffer = audioBuffer;
+    source.connect(audioContext.destination);
+    source.start();
+}
 
 diff.hover(function () {
     list.slideToggle('slow');
@@ -72,14 +88,15 @@ selectLevel.on('change', function () {
     limit = $(this).val();
     d = $(this).data("d");
     console.log(d);
+    if(!reply){
+        again.hide();
+        load.show();
+    }
     game.load(limit);
-    result.hide();
-    c.css("border-bottom-color", "white");
-    again.fadeOut(100);
-    load.fadeIn(200);
 
 });
 res.html('');
+
 var game = {
     load: function (l) {
         c.empty();
@@ -92,7 +109,23 @@ var game = {
             var span = $("<span></span>");
             span.attr("id", i);
             span.addClass('span');
-            span.hide().appendTo(c).delay(100).fadeIn(100);
+            var a = c_height + arr[i];
+            var q = left[i];
+            span.css({
+                'position': 'absolute',
+                'left': q,
+                'bottom': a,
+                'z-index': i + 1
+            }).on('click', function () {
+                $(this).remove();
+                clicked++;
+                click.html(limit - clicked);
+                play(tapSound)
+                if (clicked == l) {
+                    game.end(clicked, true)
+                }
+            }).appendTo(c);
+            // span.hide().appendTo(c).delay(100).fadeIn(100);
             perc++;
             count = (perc / l) * 100;
             // spancount.animate({ "width": count+'%'},0.01);
@@ -103,7 +136,11 @@ var game = {
         var spans = $("span");
         var f = c.find(spans);
         console.log(f.length);
-        f.each(function (i) {
+        controls.fadeOut(300, function(){
+            load.hide();
+            again.removeClass("hidden");
+        })
+        /*f.each(function (i) {
             var a = c_height + arr[i];
             var q = left[i];
             $(this).css({
@@ -112,42 +149,17 @@ var game = {
                 'bottom': a,
                 'z-index': i + 1
             })
-        });
-        $("#container").children().on('click', function () {
-            $(this).fadeOut('500');
+        });*/
+        /*$("#container").children().on('click', function () {
             $(this).remove();
             clicked++;
             click.html(limit - clicked);
             if (clicked == l) {
                 game.end(clicked, true)
             }
-        });
-        controls.fadeOut(300, function(){
-            again.removeClass("hidden");
-        })
-        
+        });*/
     },
     begin: function (d) {
-        /* var float = function(el){
-         var x = parseInt($(el).css('bottom'));
-         $(el).clearQueue()
-         .stop()
-         .animate({bottom: -40}, time ,function() {
-
-
-         if (x = -40) {
-         $(el).clearQueue().stop(false, false);
-         animateoff();
-         c.css("border-bottom-color", "red");
-         res.html('You Failed');
-         }
-
-         if(bot > 0){window.clearTimeout(bot);}
-         $("#container").children().fadeOut(1000);
-         //c.empty();
-         }).hover(function(){$(this).stop(true,false);
-         });
-         };*/
         var delay = 0;
         $("#container *").each(function () {
             var t = $(this);
@@ -155,6 +167,7 @@ var game = {
                 t.addClass('animate');
             }, delay += d);
         });
+       
     },
     end: function(score, passed){
 
@@ -167,8 +180,9 @@ var game = {
         spancount.animate({
             "width": '0%'
         }, 1000);
+        reply = true;
         result.show();
-        load.fadeOut()
+        load.hide()
         again.fadeIn()
         controls.fadeIn('slow');
         click.html("");
@@ -186,10 +200,8 @@ function animatEnd() {
 load.on('click', function () {
     $('#container').find('*').clearQueue().stop();
     clicked = 0;
-    load.slideUp("slow").delay(300);
-    load.addClass("hidden");
     game.start();
-    game.begin(d);
+    game.begin(d)
     animatEnd();
     gone = 0;
 });
@@ -198,7 +210,7 @@ again.on('click', function () {
     load.fadeOut(100);
     game.load(limit);
     game.start();
-    game.begin(d);
+    game.begin(d)
     gone = 0;
     clicked = 0;
     animatEnd();

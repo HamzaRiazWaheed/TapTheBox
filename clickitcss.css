@@ -22,7 +22,7 @@ body,html {
     right: 0;
     bottom: 0;
     z-index: 0;
-    color: #e3e3e3;
+    color: #6277ab;
     display: flex;
     justify-content: center;
     flex-direction: column;
@@ -33,13 +33,14 @@ body,html {
     font-size: 4.5em;
     font-weight: bold;
     margin: auto;
-    transition: all 400ms linear;
+    /*transition: all 400ms linear;*/
 }
 
 .span.animate {
     -moz-animation: bot 5s linear;
     -webkit-animation: bot 5s linear;
     animation: bot 5s linear;
+    animation-fill-mode: forwards;
     -webkit-animation-fill-mode: forwards;
     -moz-animation-fill-mode: forwards;
 }
@@ -74,8 +75,9 @@ body,html {
     background-color: coral;
     display: inline-block;
     margin: 5px;
-    transition: all 0.3s linear 0s;
+    /*transition: all 0.3s linear 0s;*/
     cursor : pointer;
+    border-radius: 5px;
 }
 
 .r {
